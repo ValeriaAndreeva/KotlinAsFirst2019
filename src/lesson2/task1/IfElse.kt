@@ -160,7 +160,7 @@ fun rookOrBishopThreatens(
             ((c < a) && (d < b)) -> d - a
             ((a < c) && (b < d)) -> b - c
             ((c <= a) && (b <= d)) -> b - a
-            ((a == b) && (c == d)) -> 0
+            ((a == b) || (c == d)) -> 0
             else -> 0
         }
     }
