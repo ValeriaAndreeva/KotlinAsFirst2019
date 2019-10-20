@@ -155,12 +155,12 @@ fun rookOrBishopThreatens(
      */
     fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         return when {
-            ((a > d) || (c > d) || (a < b) || (c == d)) -> -1
+            ((a == b) && (c == d)) -> 0
+            ((a > d) || (c > d) || (a < b) || (c == d) || (a == b)) -> -1
             ((a <= c) && (d <= b)) -> d - c
             ((c < a) && (d < b)) -> d - a
             ((a < c) && (b < d)) -> b - c
             ((c <= a) && (b <= d)) -> b - a
-            ((a == b) || (c == d)) -> 0
             else -> 0
         }
     }
