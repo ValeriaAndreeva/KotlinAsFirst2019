@@ -63,13 +63,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    if (age % 100 in 11..14) return "$age лет"
-    if (age % 10 == 1) return "$age год"
-    if ((age % 10 in 5..9) || (age % 10 == 0)) return "$age лет"
-    if (age % 10 in 2..4) return "$age года"
-    else return "''"
-}
+fun ageDescription(age: Int): String =
+    when {
+        ((age % 100 in 11..14) || (age % 10 in 5..9) || (age % 10 == 0)) -> "$age лет"
+        (age % 10 in 2..4) -> "$age года"
+        else -> "$age год"
+    }
+
+
 
 /**
  * Простая
@@ -82,8 +83,17 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
-
+): Double {
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val s = (s1 + s2 + s3) / 2
+return when {
+    s <= s1 -> s / v1
+    s <= s1 + s2 -> (t1 + ((s - s1) / v2))
+    else -> (t1 + t2 + ((s - (s1 + s2))/v3))
+}
+}
 /**
  * Простая
  *
@@ -99,11 +109,11 @@ fun whichRookThreatens(
     rookX2: Int, rookY2: Int
 ): Int =
     when {
-    (((kingX == rookX1) || (kingY == rookY1)) && ((kingY == rookY2) || (kingX == rookX2))) -> 3
-    ((kingX == rookX2) || (kingY == rookY2)) -> 2
-    ((kingX == rookX1) || (kingY == rookY1)) -> 1
-    else -> 0
-}
+        (((kingX == rookX1) || (kingY == rookY1)) && ((kingY == rookY2) || (kingX == rookX2))) -> 3
+        ((kingX == rookX2) || (kingY == rookY2)) -> 2
+        ((kingX == rookX1) || (kingY == rookY1)) -> 1
+        else -> 0
+    }
 
 /**
  * Простая
@@ -120,47 +130,36 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int): Int =
     when {
-        ((kingX == rookX) || (kingY == rookY) && (sqr(bishopX - kingX)) == sqr(bishopY - kingY)) -> 3
+        (((kingX == rookX) || (kingY == rookY)) && ((sqr(bishopX - kingX)) == sqr(bishopY - kingY))) -> 3
         ((kingX == rookX) || (kingY == rookY)) -> 1
         (sqr(bishopX - kingX)) == sqr(bishopY - kingY) -> 2
         else -> 0
     }
 
-    /**
-     * Простая
-     *
-     * Треугольник задан длинами своих сторон a, b, c.
-     * Проверить, является ли данный треугольник остроугольным (вернуть 0),
-     * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
-     * Если такой треугольник не существует, вернуть -1.
-     */
-    fun triangleKind(a: Double, b: Double, c: Double): Int {
-        return if ((a + b > c) && (a + c > b) && (b + c > a)) {
-            return when {
-                (sqr(a) + sqr(b) > sqr(c)) && (sqr(a) + sqr(c) > sqr(b)) && (sqr(b) + sqr(c) > sqr(a)) -> 0
-                (sqr(a) + sqr(b) < sqr(c)) || (sqr(a) + sqr(c) < sqr(b)) || (sqr(b) + sqr(c) < sqr(a)) -> 2
-                else -> 1
-            }
+/**
+ * Простая
+ *
+ * Треугольник задан длинами своих сторон a, b, c.
+ * Проверить, является ли данный треугольник остроугольным (вернуть 0),
+ * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
+ * Если такой треугольник не существует, вернуть -1.
+ */
+fun triangleKind(a: Double, b: Double, c: Double): Int =
+   if ((a + b > c) && (a + c > b) && (b + c > a)) {
+       when {
+            (sqr(a) + sqr(b) > sqr(c)) && (sqr(a) + sqr(c) > sqr(b)) && (sqr(b) + sqr(c) > sqr(a)) -> 0
+            (sqr(a) + sqr(b) < sqr(c)) || (sqr(a) + sqr(c) < sqr(b)) || (sqr(b) + sqr(c) < sqr(a)) -> 2
+            else -> 1
+       }
 
-        } else -1
-    }
+   } else -1
 
-    /**
-     * Средняя
-     *
-     * Даны четыре точки на одной прямой: A, B, C и D.
-     * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
-     * Найти длину пересечения отрезков AB и CD.
-     * Если пересечения нет, вернуть -1.
-     */
-    fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-        return when {
-            ((a == b) && (c == d)) -> 0
-            ((a > d) || (c > d) || (a < b) || (c == d) || (a == b)) -> -1
-            ((a <= c) && (d <= b)) -> d - c
-            ((c < a) && (d < b)) -> d - a
-            ((a < c) && (b < d)) -> b - c
-            ((c <= a) && (b <= d)) -> b - a
-            else -> 0
-        }
-    }
+/**
+ * Средняя
+ *
+ * Даны четыре точки на одной прямой: A, B, C и D.
+ * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
+ * Найти длину пересечения отрезков AB и CD.
+ * Если пересечения нет, вернуть -1.
+ */
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
