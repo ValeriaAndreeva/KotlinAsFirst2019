@@ -9,7 +9,7 @@ import kotlin.math.*
  *
  * Вычисление квадрата целого числа
  */
-fun sqr(x: Int) = x * x
+fun sqr(x: Int): Int = x * x
 
 /**
  * Пример
@@ -112,7 +112,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double =
-    initial * (1 + percent * 0.01 * (percent * percent * 0.0001 + 3 * (percent * 0.01 + 1)))
+    initial * (1 + percent * 0.01 * (percent.toDouble().pow(2) * 0.0001 + 3 * (percent * 0.01 + 1)))
 
 /**
  * Простая
