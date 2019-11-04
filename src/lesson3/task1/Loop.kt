@@ -292,7 +292,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var s: Int
+    var s = 0
     var m = 2
     var l = 1
     while (l < n) {
@@ -319,7 +319,7 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var s: Int
+    var s = 0
     var m = 2
     var l = 1
     while (l < n) {
