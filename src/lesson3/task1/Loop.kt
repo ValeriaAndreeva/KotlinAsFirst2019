@@ -85,7 +85,18 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 1
+    var fib: Int
+    if (n < 3) return 1
+    else for (i in 3..n) {
+        fib = fib1 + fib2
+        fib1 = fib2
+        fib2 = fib
+    }
+    return fib2
+}
 
 /**
  * Простая
@@ -280,8 +291,24 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
-
+fun squareSequenceDigit(n: Int): Int {
+    var s: Int
+    var m = 2
+    var l = 1
+    while (l < n) {
+        s = sqr(m)
+        m++
+        l += digitNumber(s)
+    }
+    return if (l != n) {
+        while (l != n) {
+            s /= 10
+            l--
+        }
+        s % 10
+    }
+    else s % 10
+}
 /**
  * Сложная
  *
@@ -291,4 +318,21 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var s: Int
+    var m = 2
+    var l = 1
+    while (l < n) {
+        s = fib(m)
+        m++
+        l += digitNumber(s)
+    }
+    return if (l != n) {
+        while (l != n) {
+            s /= 10
+            l--
+        }
+        s % 10
+    }
+    else s % 10
+}
