@@ -73,12 +73,27 @@ fun digitNumber(n: Int): Int {
     var count = 0
     var number = n
     if (number == 0) return 1
-        while (number != 0) {
-            number /= 10
-            count++
-        }
-        return count
+    while (number != 0) {
+        number /= 10
+        count++
     }
+    return count
+}
+/**
+ * НОД
+ */
+fun gcf(m: Int, n: Int): Int {
+    var m1 = m
+    var n1 = n
+    while ((m1 != 0) && (n1 != 0)) {
+        if (m1 > n1) {
+            m1 %= n1
+        } else {
+            n1 %= m1
+        }
+    }
+    return (m1 + n1)
+}
 /**
  * Простая
  *
@@ -88,12 +103,14 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var fib1 = 1
     var fib2 = 1
-    var fib: Int
-    if (n < 3) return 1
-    else for (i in 3..n) {
-        fib = fib1 + fib2
-        fib1 = fib2
-        fib2 = fib
+    var number = n
+    while (number >= 3) {
+        for (i in 3..n) {
+            val fib = fib1 + fib2
+            fib1 = fib2
+            fib2 = fib
+            number --
+        }
     }
     return fib2
 }
@@ -104,17 +121,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var m1 = m
-    var n1 = n
-    while (m1 != n1) {
-        if (m1 > n1) {
-            m1 -= n1
-        }
-        else n1 -= m1
-    }
-    return (m * n) / m1
-}
+fun lcm(m: Int, n: Int): Int = (m / gcf(m , n)) * n
 
 /**
  * Простая
@@ -122,13 +129,18 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var d = 2
-    while (n % d != 0) {
-        d++
+    val a = sqrt(n.toDouble()).toInt()
+    var d = n
+    for (i in 2..a) {
+        val b = n % i
+        if (b == 0) {
+            if (i < d) {
+                d = i
+            }
+        }
     }
     return d
 }
-
 /**
  * Простая
  *
@@ -146,19 +158,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var m1 = m
-    var n1 = n
-    while (m1 != n1) {
-        if (m1 > n1) {
-            m1 -= n1
-        }
-        else n1 -= m1
-    }
-    return m1 == 1
-
-}
-
+fun isCoPrime(m: Int, n: Int): Boolean = (gcf(m, n) == 1)
 /**
  * Простая
  *
@@ -194,12 +194,11 @@ fun collatzSteps(x: Int): Int {
     var n = 0
     while (a != 1) {
         if (a % 2 == 0) {
-            a /= 2
-        }
+            a /= 2 }
         else {
             a = 3 * a + 1
         }
-        n ++
+        n++
     }
     return n
 }
@@ -214,37 +213,34 @@ fun collatzSteps(x: Int): Int {
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double = TODO()
-
-/**
- * Средняя
- *
- * Для заданного x рассчитать с заданной точностью eps
- * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
- * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
- * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
- * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
- */
-fun cos(x: Double, eps: Double): Double = TODO()
-
-/**
- * Средняя
- *
- * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
-fun revert(n: Int): Int {
-    var number = n
-    var a = 0
-    var e = digitNumber(n)
-    while (number != 0) {
-        a += ((number.toDouble() % 10.0) * 10.0.pow(e - 1)).toInt()
-        e --
-        number /= 10
-    }
-    return a
-}
-
+ /**
+  * Средняя
+  *
+  * Для заданного x рассчитать с заданной точностью eps
+  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
+  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
+  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
+  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
+  */
+ fun cos(x: Double, eps: Double): Double = TODO()
+ /**
+  * Средняя
+  *
+  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
+  *
+  * Использовать операции со строками в этой задаче запрещается.
+  */
+ fun revert(n: Int): Int {
+     var number = n
+     var a = 0
+     var e = digitNumber(n)
+     while (number != 0) {
+         a += ((number.toDouble() % 10.0) * 10.0.pow(e - 1)).toInt()
+         e--
+         number /= 10
+     }
+     return a
+ }
 /**
  * Средняя
  *
@@ -258,29 +254,27 @@ fun isPalindrome(n: Int): Boolean {
     val r = revert(n)
     return r == n
 }
+ /**
+  * Средняя
+  *
+  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
+  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
+  *
+  * Использовать операции со строками в этой задаче запрещается.
+  */
+ fun hasDifferentDigits(n: Int): Boolean {
+     var d = digitNumber(n)
+     if (d == 1) return false
+     var number = n / 10
+     val a = n % 10
+     while (number != 0){
+         if (a != number % 10) return true
+             d -= 1
+             number /= 10
+     }
+     return false
+ }
 
-/**
- * Средняя
- *
- * Для заданного числа n определить, содержит ли оно различающиеся цифры.
- * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
-fun hasDifferentDigits(n: Int): Boolean {
-    var d = digitNumber(n)
-    var number = n / 10
-    val a =  n % 10
-    if (d == 1) return false
-    else while ((d != 0) && (number != 0)){
-        if (a != number % 10) return true
-        else {
-            d -= 1
-            number /= 10
-        }
-    }
-    return false
-}
 
 /**
  * Сложная
@@ -307,9 +301,10 @@ fun squareSequenceDigit(n: Int): Int {
             l--
         }
         s % 10
-    }
-    else s % 10
+    } else s % 10
 }
+
+
 /**
  * Сложная
  *
@@ -319,12 +314,12 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int {
+fun fibSequenceDigit(n: Int): Int  {
     var s = 0
     var m = 2
     var l = 1
     if (n == 1) return n
-    while (l < n) {
+    else while (l < n) {
         s = fib(m)
         m++
         l += digitNumber(s)

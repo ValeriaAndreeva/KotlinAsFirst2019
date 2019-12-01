@@ -118,8 +118,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    if (v.isEmpty()) return 0.0
-    else return sqrt((v.map { it * it }).sum())
+    return if (v.isEmpty()) 0.0
+    else sqrt((v.sumByDouble { it * it }))
 }
 
 /**
@@ -128,10 +128,8 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    return when {
-        list.isNotEmpty() -> (list.sum()) / (list.size)
-        else -> 0.0
-    }
+    return if (list.isNotEmpty()) (list.sum()) / (list.size)
+    else 0.0
 }
 
 /**
@@ -168,10 +166,8 @@ fun times(a: List<Int>, b: List<Int>): Int = TODO()
  */
 fun polynom(p: List<Int>, x: Int): Int {
     var result = 0
-    if (p.isEmpty()) return 0
-    else for (i in p.indices) {
-        var element = p[i]
-        element = (element * (x.toDouble()).pow(i)).toInt()
+    for (i in p.indices) {
+        val element = (p[i] * (x.toDouble()).pow(i)).toInt()
         result += element
     }
     return result
@@ -189,7 +185,6 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    if (list.size == 1) return list
     for (i in 1 until list.size) {
         list[i] += list[i - 1]
     }

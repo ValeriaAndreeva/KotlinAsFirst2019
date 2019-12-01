@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import java.util.*
+
 /**
  * Пример
  *
@@ -136,7 +138,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().intersect(b.toSet()).toList()
 
 /**
  * Средняя
@@ -210,12 +212,11 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    val l = mutableMapOf<String, Int>()
-    for (item in list) {
-        l[item] = l.getOrDefault(item, 0) + 1
+    val repeat = mutableMapOf<String, Int>()
+    for (i in list) {
+        repeat[i] = repeat.getOrDefault(i, 0) + 1
     }
-    val result = l.filter { e -> e.value != 1 }
-    return result
+    return repeat.filter { e -> e.value != 1 }
 }
 
 /**
@@ -227,7 +228,18 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    val m = mutableSetOf<Map<Char, Int>>()
+    for (element in words) {
+        val a = mutableMapOf<Char, Int>()
+        for (i in element) {
+            a[i] = a.getOrDefault(i, 0) + 1
+        }
+        if (m.contains(a)) return true
+        m.add(a)
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -273,7 +285,6 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
-
 /**
  * Очень сложная
  *
