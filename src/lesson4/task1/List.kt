@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import java.lang.StringBuilder
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -248,7 +249,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val result = StringBuilder()
+    val c = convert(n, base)
+    for (char in c){
+        when {
+            (char in 0..9) -> result.append(char)
+            (char in 10..36) -> result.append((char + ('a' - 10).toInt()).toChar())
+        }
+    }
+    return result.toString()
+}
+
 
 /**
  * Средняя
