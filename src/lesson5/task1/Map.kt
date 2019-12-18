@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.sorted
 import java.util.*
 
 /**
@@ -284,7 +285,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val map = mutableMapOf<Int, Int>()
+    for ((index, element) in list.withIndex()) {
+        if ((number - element) in map) return (index to (map[number - element]!!)).sorted()
+        else map[element] = index
+    }
+    return -1 to -1
+}
 /**
  * Очень сложная
  *
