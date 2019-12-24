@@ -201,7 +201,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  */
 fun factorize(n: Int): List<Int> {
     var n1 = n
-    val j = (n / 2)
+    val j = sqrt(n.toDouble()).toInt()
     val f = mutableListOf<Int>()
     for (i in 2..j)
         while (n1 % i == 0) {
@@ -259,7 +259,7 @@ fun convertToString(n: Int, base: Int): String {
     for (char in c){
         when {
             (char in 0..9) -> result.append(char)
-            (char in 10..36) -> result.append((char + ('a' - 10).toInt()).toChar())
+            (char in 10..36) -> result.append(('a' + (char - 10)))
         }
     }
     return result.toString()

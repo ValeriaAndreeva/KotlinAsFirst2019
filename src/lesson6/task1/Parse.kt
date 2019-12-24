@@ -92,8 +92,8 @@ fun dateStrToDigit(str: String): String {
         "декабря" -> 12
         else -> return ""
     }
-    if ((day!! > daysInMonth(month, year!!)) || (day <= 0))return ""
-    return String.format("%02d.%02d.%02d", day, month, year)
+    if ((day == null) || (year == null) || (day > daysInMonth(month, year)) || (day <= 0))return ""
+    return String.format("%02d.%02d.%d", day, month, year)
 }
 
 
@@ -128,7 +128,7 @@ fun dateDigitToStr(digital: String): String {
         "12" -> "декабря"
         else -> return ""
     }
-    if ((day!! > daysInMonth(parts[1].toInt(), year!!)) || (day <= 0))return ""
+    if ((day == null) || (year == null) ||(day > daysInMonth(parts[1].toInt(), year)) || (day <= 0))return ""
     return String.format("$day $month $year")
 }
 
